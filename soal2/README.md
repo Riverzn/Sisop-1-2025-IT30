@@ -2,7 +2,7 @@
 
 ## register.sh :
 
-###1. Persiapan data
+### 1. Persiapan data
 Membuat folder /data untuk menyimpan database player
 ```sh
 #!/bin/bash
@@ -13,7 +13,7 @@ SALT="ArcaeaSALT2025"
 mkdir -p /data
 touch "$DATA_FILE"
 ```
-###2. Main Menu
+### 2. Main Menu
 Membaca email, usn, dan password dalam terminal
 ```sh
 clear
