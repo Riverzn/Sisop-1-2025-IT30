@@ -208,7 +208,7 @@ cpu_model=$(lscpu | grep "Model name" | awk -F: '{print $2}' | sed 's/^[ \t]*//'
 # top processes cpu
 top_processes=$(ps -eo pid,comm,%cpu --sort=-%cpu | head -6 | awk 'NR>1 {printf "%-6s %-20s %s%%\n", $1, $2, $3}')
 ```
-Tampilan terminal
+5. Tampilan terminal
 ```sh
 clear
 echo -e "${CYAN}┌───────────────────────────────────┐"
@@ -232,5 +232,63 @@ echo "[$timestamp] - Core Usage [$cpu_usage%] - Terminal Model [$cpu_model]" >> 
 ```
 
 # frag_monitor.sh
+1. Inisialisasi Log File & Folder
 ```sh
+LOG_DIR="./log"
+LOG_FILE="$LOG_DIR/fragment.log"
+mkdir -p "$LOG_DIR"
+```
+2. Mengambil Info RAM
+* free -m > membaca informasi RAM dalam satuan MB (megabyte).
+* used_ram > RAM yang sedang digunakan dalam MB.
+* free_ram > RAM yang tersedia dalam MB.
+* ram_usage > Persentase penggunaan RAM:
+$3 = RAM yang digunakan.
+$2 = Total RAM.
+($3 / $2 * 100) → Menghitung persentase RAM yang digunakan.
+```sh
+total_ram=$(free -m | awk '/Mem:/ {print $2}')
+used_ram=$(free -m | awk '/Mem:/ {print $3}')
+free_ram=$(free -m | awk '/Mem:/ {print $4}')
+ram_usage=$(free | awk '/Mem:/ {printf("%.2f"), $3/$2 * 100}')
+```
+3. Tampilan Info RAM di Terminal
+```sh
+clear
+echo -e "${CYAN}┌───────────────────────────────────┐"
+echo -e "│          💾 RAM Monitor           │"
+echo -e "│            ⏳ $current_time            │"
+echo -e "└───────────────────────────────────┘${NC}"
+
+echo -e "📌 ${YELLOW}Total RAM:${NC} ${GREEN}$total_ram MB${NC}"
+echo -e "🔥 ${YELLOW}Used RAM:${NC} ${GREEN}$used_ram MB${NC}"
+echo -e "💡 ${YELLOW}Free RAM:${NC} ${GREEN}$free_ram MB${NC}"
+echo -e "⚡ ${YELLOW}Usage:${NC} ${GREEN}$ram_usage${NC}"
+```
+Tampilan Recent RAM Processes
+* ps -eo pid,user,%cpu,%mem,comm --sort=-%mem > Mengambil daftar proses dengan informasi:
+PID (Process ID).
+User yang menjalankan proses.
+CPU% (penggunaan CPU).
+MEM% (penggunaan RAM).
+Command (nama proses).
+* head -6 → Mengambil 5 proses teratas + 1 baris header.
+```sh
+echo -e "${CYAN}┌────────────────────────────────────────────────────────────────────┐"
+echo -e "│       🔍 Recent Memory Processes                                   │"
+echo -e "└────────────────────────────────────────────────────────────────────┘${NC}"
+echo -e "${YELLOW}PID     USER       CPU%   MEM%   COMMAND       {NC}"
+
+ps -eo pid,user,%cpu,%mem,comm --sort=-%mem | head -6 | awk -v green="$GREEN" -v nc="$NC" 'NR>1 {
+    printf "%-6s " green "%-10s" nc " %-6s %-6s %-20s\n", $1, $2, $3, $4, $5;
+}'
+```
+>> "$LOG_FILE" > Menambahkan hasil ke dalam file log tanpa menghapus isi sebelumnya.
+```sh
+echo "[$timestamp] - Fragment Usage [$ram_usage%] - Fragment Count [$used_ram MB] - Details [Total: $total_ram MB, Available: $free_ram MB]" >> "$LOG_FILE"
+```
+
+# manager.sh
+```sh
+
 ```
