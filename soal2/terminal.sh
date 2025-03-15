@@ -1,13 +1,12 @@
 #!/bin/bash
 
-# Warna untuk tampilan lebih menarik
 BLUE='\033[0;34m'
 YELLOW='\033[1;33m'
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 NC='\033[0m' # No Color
 
-# Menu utama
+# main menu
 while true; do
     clear
     echo -e "${BLUE}======================================"
@@ -24,13 +23,11 @@ while true; do
             bash register.sh 
             ;;
         2) 
-            # Menjalankan login.sh dan menangkap output sukses
             login_output=$(bash login.sh)
             if [[ $login_output == *"✅ Login berhasil!"* ]]; then
                 echo -e "${GREEN}$login_output${NC}"
                 echo -e "${YELLOW}🎮 Anda sekarang masuk ke dalam dunia Arcaea.${NC}"
-                
-                # Menu setelah login
+        
                 while true; do
                     echo -e "\n1️⃣ Kembali ke Menu Utama"
       		    echo -e "2️⃣onMonitor CPU Usage"
@@ -39,7 +36,7 @@ while true; do
                     read -p "Pilih opsi [1-4]: " login_choice
 
                     case $login_choice in
-                        1) break ;;  # Kembali ke menu utama
+                        1) break ;;  # back to main menu
 			2) bash scripts/core_monitor.sh ;;
 			3) bash scripts/frag_monitor.sh ;;
 			4) bash scripts/manager.sh ;;
