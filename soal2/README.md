@@ -7,7 +7,10 @@
 
 - [register.sh](#register.sh)
 - [login.sh](#login.sh)
-- 
+- [terminal.sh](#terminal.sh)
+- [core_monitor.sh](#core_monitor.sh)
+- [frag_mnitor.sh](#frag_Monitor.sh)
+- [manager.sh](#manager.sh)
   
 # register.sh :
 
