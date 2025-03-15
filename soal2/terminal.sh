@@ -30,8 +30,8 @@ while true; do
         
                 while true; do
                     echo -e "\n1️⃣ Kembali ke Menu Utama"
-      		    echo -e "2️⃣onMonitor CPU Usage"
-		    echo -e "3️⃣onMonitor RAM Usage"
+      		    echo -e "2️⃣ Monitor CPU Usage"
+		    echo -e "3️⃣ Monitor RAM Usage"
 		    echo -e "4 Crontab Manager"
                     read -p "Pilih opsi [1-4]: " login_choice
 
