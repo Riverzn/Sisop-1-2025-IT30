@@ -43,17 +43,20 @@ digunakan untuk memasukan opsi sebagai solusi dari opsi problem.
 Berdasarkan ketentuan soal_1 yang telah ditetapkan pada *note, seluruh opsi solusi problem di soal_1 menggunakan `if else` dan `awk` yang disatukan dalam suatu file.
 
 Opsi-opsi solusi problem menggunakan kondisi `if else`, sehingga:
+### Problem1
 
     if [[ "$opsi" == "1" ]]; then
 		awk -F',' ' BEGIN {n = 0} $2 == "Chris Hemsworth" {++n}
 		END {print "Chris Hemsworth membaca", n, "buku."}' reading_data.csv
 Kode diatas akan menyelesaikan **problem pertama** dengan menghitung berapa banyak `Chris Hemsworth` sebagai "n" dan melakukan *increment* setiap `Chris Hemsworth`ditemui di column 2 / $2.
+### Problem2
 
     elif [[ "$opsi" == "2" ]]; then
     	awk -F',' 'NR > 1 { total += $6; count++ }
     	END { if (count > 0)
 	    	print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
 Kode diatas akan menyelesaikan **problem kedua** dengan `NR > 1 { total += $6; count++ }` yang akan menghitung total column 6 / $6 yang merupakan *durasi membaca*, dilanjutkan menghitung jumlah kolom yang ada, yang kemudian akan digunakan untuk menghitung rata-rata durasi membaca dengan `total/count`.
+### Problem3
 
     elif [[ "$opsi" == "3" ]]; then
     	awk -F',' 'NR > 1 {
@@ -65,6 +68,7 @@ Kode diatas akan menyelesaikan **problem kedua** dengan `NR > 1 { total += $6; c
     	}
     	END {print pembaca, "memberi rating tertinggi", max_rating, "untuk buku", buku;}' reading_data.csv
 Kode diatas akan menyelesaikan **problem ketiga** dengan membandingkan nilai rating dan diteruskan sehingga mendapat nilai `max_rating` sebagai rating tertinggi, diikuti dengan pembacanya ($2) dan bukunya ($3).
+### Problem4
 
     elif [[ "$opsi" == "4" ]]; then
     	awk -F',' 'NR > 1 && $5 > 2023 {
