@@ -3,17 +3,15 @@
 DATA_FILE="/data/player.csv"
 SALT="ArcaeaSALT2025"
 
-# Pastikan folder /data/ ada
 mkdir -p /data
 touch "$DATA_FILE"
 
-# Warna untuk tampilan lebih menarik
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No Color
 
-# Fungsi animasi loading
+# load animation
 loading() {
     echo -n "Processing"
     for i in {1..3}; do
@@ -45,7 +43,7 @@ if ! [[ "$password" =~ [A-Z] && "$password" =~ [a-z] && "$password" =~ [0-9] && 
     exit 1
 fi
 
-# Cek apakah email sudah terdaftar
+# Cek email
 if grep -q "^$email," "$DATA_FILE"; then
     echo -e "${RED}❌ Error: Email sudah terdaftar!${NC}"
     exit 1
@@ -53,10 +51,9 @@ fi
 
 loading
 
-# Hash password (gunakan SHA-256)
 password_hash=$(echo -n "${password}${SALT}" | sha256sum | awk '{print $1}')
 
-# Simpan data ke dalam file CSV
+# simpan data ke player.csv file
 echo "$email,$username,$password_hash" >> "$DATA_FILE"
 
 echo -e "${GREEN}✅ Registrasi berhasil! Selamat datang, ${username}! 🎉${NC}"
