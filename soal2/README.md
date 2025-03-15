@@ -59,4 +59,39 @@ echo -e "${GREEN}✅ Registrasi berhasil! Selamat datang, ${username}! 🎉${NC}
 ```
 
 ## login.sh
-### 1. 
+### 1. Main menu
+```sh
+#!/bin/bash
+
+DATA_FILE="/data/player.csv"
+SALT="ArcaeaSALT2025"
+
+mkdir -p /data
+touch "$DATA_FILE"
+
+clear
+echo -e "${BLUE}======================================"
+echo -e "        🔑 Login Player              "
+echo -e "======================================${NC}"
+
+read -p "Masukkan Email: " email
+read -s -p "Masukkan Password: " password
+echo ""
+```
+Mengecek apakah email dan password ada dalam database /data/player.csv
+```sh
+# Hash password yang dimasukkan
+password_hash=$(echo -n "${password}${SALT}" | sha256sum | awk '{print $1}')
+
+if grep -q "^$email,.*,$password_hash$" "$DATA_FILE"; then
+    echo -e "${GREEN}✅ Login berhasil! Selamat datang kembali! 🎉${NC}"
+else
+    echo -e "${RED}❌ Error: Email atau Password salah.${NC}"
+    exit 1
+fi
+```
+
+##terminal .sh
+###1. 
+```sh
+```
