@@ -1,6 +1,15 @@
-# Dokumentasi Sisop modul 1 ; soal_2
+<div align=center>
+	
+## Dokumentasi Sisop modul 1 soal_2
+</div>
 
-## register.sh :
+## Table of Contents
+
+- [register.sh](#register.sh)
+- [login.sh](#login.sh)
+- 
+  
+# register.sh :
 
 ### 1. Persiapan data
 Membuat folder /data untuk menyimpan database player
@@ -58,7 +67,7 @@ echo "$email,$username,$password_hash" >> "$DATA_FILE"
 echo -e "${GREEN}✅ Registrasi berhasil! Selamat datang, ${username}! 🎉${NC}"
 ```
 
-## login.sh
+# login.sh
 ### 1. Main menu
 ```sh
 #!/bin/bash
@@ -164,6 +173,64 @@ Jika input tidak valid (*), akan menampilkan pesan error.
 done
 ```
 
-##core_monitor.sh
+# core_monitor.sh
+1. Inisialisasi Log File & Folder
+```sh
+LOG_DIR="./log" // Menentukan lokasi folder untuk menyimpan log.
+LOG_FILE="$LOG_DIR/core.log" //Menentukan nama file log (core.log) di dalam folder /log
+mkdir -p "$LOG_DIR"
+```
+2. Mengambil info CPU
+* grep "Cpu(s)" > Mencari baris yang mengandung informasi CPU.
+* awk '{print 100 - $8"%"}' >
+$8 adalah nilai idle CPU.
+100 - idle → Menghitung persentase penggunaan CPU aktif.
+```sh
+# Info CPU
+cpu_usage=$(top -bn1 | grep "Cpu(s)" | awk '{print 100 - $8"%"}')
+```
+3. Mengambil model CPU
+* lscpu > Menampilkan informasi tentang CPU.
+* grep "Model name" > Mencari baris yang berisi model CPU.
+* awk -F: '{print $2}' > Mengambil teks setelah tanda ':'
+* sed 's/^[ \t]*//' > Menghapus spasi/tab di awal teks.
+```sh
+# Model CPU
+cpu_model=$(lscpu | grep "Model name" | awk -F: '{print $2}' | sed 's/^[ \t]*//')
+```
+4. Mengambil Top 5 recent processes CPU
+* ps -eo pid,comm,%cpu > Mengambil daftar PID, nama proses, dan penggunaan CPU.
+* --sort=-%cpu > Mengurutkan proses dari penggunaan CPU tertinggi.
+* head -6 > Mengambil 6 baris teratas (termasuk header).
+* awk 'NR>1 {printf "%-6s %-20s %s%%\n", $1, $2, $3}'
+* NR>1 → Melewati baris pertama (header).
+```sh
+# top processes cpu
+top_processes=$(ps -eo pid,comm,%cpu --sort=-%cpu | head -6 | awk 'NR>1 {printf "%-6s %-20s %s%%\n", $1, $2, $3}')
+```
+Tampilan terminal
+```sh
+clear
+echo -e "${CYAN}┌───────────────────────────────────┐"
+echo -e "│           🔥 CPU Monitor          │"
+echo -e "│         ⏳ $current_time          │"
+echo -e "└───────────────────────────────────┘${NC}"
+
+echo -e "📌 ${YELLOW}CPU Model:${NC} ${GREEN}$cpu_model${NC}"
+echo -e "⚡ ${YELLOW}CPU Usage:${NC} ${GREEN}$cpu_usage${NC}"
+
+echo -e "${CYAN}┌───────────────────────────────────┐"
+echo -e "│      🔍 Top 5 CPU Processes       │"
+echo -e "└───────────────────────────────────┘${NC}"
+echo -e "${YELLOW}PID     COMMAND              CPU%${NC}"
+echo -e "$top_processes"
+```
+>> "$LOG_FILE" > Menambahkan hasil ke dalam file log tanpa menghapus isi sebelumnya.
+```sh
+# Simpan ke log
+echo "[$timestamp] - Core Usage [$cpu_usage%] - Terminal Model [$cpu_model]" >> "$LOG_FILE"
+```
+
+# frag_monitor.sh
 ```sh
 ```
