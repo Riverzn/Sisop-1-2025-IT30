@@ -1,7 +1,7 @@
 # Penjelasan Code soal_1
 ## The Adventure of Poppo and Siroyo through the magical tablet!
 ### Problem:
-
+  
 > **Suatu hari, mereka menemukan tablet ajaib berisi catatan misterius bernama [reading_data.csv](https://drive.google.com/file/d/1l8fsj5LZLwXBlHaqhfJVjz_T0p7EJjqV/view?usp=sharing). Dengan bantuan keajaiban `awk`, mereka memutuskan untuk menjelajahi rahasia di balik data itu, siap menghadapi tantangan demi tantangan dalam petualangan baru mereka.**
 - **Berapa banyak buku yang dibaca oleh “Chris Hemsworth”?**
 - **Berapa rata-rata durasi "mereka" membaca?**
