@@ -84,12 +84,12 @@ Kode diatas akan menyelesaikan **problem ketiga** dengan membandingkan nilai rat
       	}
       	print "Genre buku terpopuler setelah 2023 adalah:", popular_genre, "\nDengan jumlah buku yaitu: ", max_jmlh, "buku";
     }' reading_data.csv
-kode ini akan menyelesaikan **problem keempat** yang dimana akan mencari genre buku terpopuler setelah 2023 disertai jumlah bukunya.
+*! kode ini akan menyelesaikan **problem keempat** yang dimana akan mencari genre buku terpopuler setelah 2023 disertai jumlah bukunya. *!
 
 	awk -F',' 'NR > 1 && $5 > 2023 {
   		jmlh_genre[$4]++
 	} 
-akan menghitung jumlah buku dengan genre tertentu (column 4 / $4) yang telah dipilah hanya untuk buku terbitan setelah 2023 ($5 > 2023).
+*! akan menghitung jumlah buku dengan genre tertentu (column 4 / $4) yang telah dipilah hanya untuk buku terbitan setelah 2023 ($5 > 2023). *!
 
     END {
     max_jmlh = 0
