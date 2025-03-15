@@ -124,7 +124,12 @@ while true; do
                 echo -e "${YELLOW}🎮 Anda sekarang masuk ke dalam dunia Arcaea.${NC}"
 ```
 Menu selanjutnya berisi 4 Option :
-1. _break_ yang akan 
+1. → break → Menghentikan loop dan kembali ke menu utama.
+2. → Menjalankan core_monitor.sh → Melakukan monitoring CPU dengan menjalankan script core_monitor.sh.
+3. → Menjalankan frag_monitor.sh → Melakukan monitoring RAM dengan menjalankan script frag_monitor.sh.
+4. → Menjalankan manager.sh → Mengelola Crontab (jadwal pemantauan sistem) dengan menjalankan script manager.sh.
+Jika input tidak valid (*), akan menampilkan pesan error.
+
 ```sh
                 while true; do
                     echo -e "\n1️⃣ Kembali ke Menu Utama"
@@ -157,4 +162,8 @@ Menu selanjutnya berisi 4 Option :
             ;;
     esac
 done
+```
+
+##core_monitor.sh
+```sh
 ```
