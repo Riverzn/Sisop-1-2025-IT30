@@ -11,7 +11,7 @@
 | 3  | Dimas Satya Andhika              | 5027241032 |
 
 
-***! Penjelasan revisi Modul1 berada di akhir laporan resmi. Terimakasih!**
+**! Penjelasan revisi Modul1 berada di akhir laporan resmi. Terimakasih !**
 ---
 <div align=center>
 	
