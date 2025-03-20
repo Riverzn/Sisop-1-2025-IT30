@@ -14,7 +14,7 @@
 ---
 <div align=center>
 	
-## Soal_1
+## Soal_1 (Revisi)
 </div>
 	
 ### The Adventure of Poppo and Siroyo through the magical tablet!
@@ -757,10 +757,10 @@ else
 fi
 ```
 melakukan seleksi pada lagu, jika input pengguna tidak sesuai dengan `$1` maka pesan "Lagu tidak ditemukan, harap hubungi admin" akan tercetak
-
+---
 <div align=center>
 	
-## Soal_4
+## Soal_4 (Revisi)
 </div>
 ## Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
 ### Problem:
