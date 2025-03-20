@@ -12,7 +12,7 @@ tablet_ajaib() {
 
 	Hadapi petualangan dan temukan rahasia di tablet_ajaib!
 	1. Berapa banyak buku yang Chris Hemsworth baca???
-	2. Berapa rata-rata durasi "mereka" membaca???
+	2. Berapa rata-rata durasi "mereka" membaca dengan device tertentu???
 	3. Siapakah yang memberi rating buku tertinggi? dan buku apakah itu??
 	4. Setelah tahun 2023, genre buku apakah yang terpopuler???
 
@@ -29,7 +29,10 @@ if [[ "$opsi" == "1" ]]; then
 		END {print "Chris Hemsworth membaca", n, "buku."}' reading_data.csv
 
 elif [[ "$opsi" == "2" ]]; then
-	awk -F',' 'NR > 1 { total += $6; count++ }
+	echo "Pilih device: "
+	read device
+	awk -F',' -v dev="$device" '
+	NR > 1 && tolower($8) ~ tolower(dev) && $6 ~ /^[0-9]+(\.[0-9]*)?$/ {total += $6; count++}
 		END { if (count > 0)
                    print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
 
@@ -44,7 +47,7 @@ elif [[ "$opsi" == "3" ]]; then
 	END {print pembaca, "memberi rating tertinggi", max_rating, "untuk buku", buku;}' reading_data.csv
 
 elif [[ "$opsi" == "4" ]]; then
-	awk -F',' 'NR > 1 && $5 > 2023 {
+	awk -F',' 'NR > 1 && $5 ~ /^[0-9]{4}/ && substr($5, 1, 4) > 2023 && tolower($9) ~ /asia/ {
   		jmlh_genre[$4]++
 	} 
 	END {
@@ -55,7 +58,7 @@ elif [[ "$opsi" == "4" ]]; then
       		popular_genre = genre
     		}
   	}
-  	print "Genre buku terpopuler setelah 2023 adalah:", popular_genre, "\nDengan jumlah buku yaitu: ", max_jmlh, "buku";
+  	print "Genre buku terpopuler setelah 2023 di Asia adalah:", popular_genre, "\nDengan jumlah buku yaitu: ", max_jmlh, "buku";
 }' reading_data.csv
 
 else

@@ -82,20 +82,19 @@ case "$1" in
 	;;
 
     -i|--info)
-        HUP=$(awk -F, 'NR>1 {if($2>max_usage){max_usage=$2; name=$1}} END {print name, max_usage}' "$FILE")
-        HRU=$(awk -F, 'NR>1 {if($3>max_raw){max_raw=$3; name=$1}} END {print name, max_raw}' "$FILE")
+        echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
 
-        HUP_NAME=$(echo "$HUP" | awk '{$NF=""; print $0}')
-        HUP_VALUE=$(echo "$HUP" | awk '{print $NF}')
-        HRU_NAME=$(echo "$HRU" | awk '{$NF=""; print $0}')
-        HRU_VALUE=$(echo "$HRU" | awk '{print $NF}')
+        awk -F, 'NR>1 {
+            if ($2+0 > max_usage) { max_usage = $2+0; name = $1 }
+            if ($3+0 > max_raw) { max_raw = $3+0; raw_name = $1 }
+        }
+        END {
+            print "Highest Usage Percentage (%):", name, "with", max_usage "%"
+            print "Highest Raw Usage:", raw_name, "with", max_raw, "uses"
+        }' "$FILE"
 
-	echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
-        echo "Highest Usage Percentage (%): $HUP_NAME with $HUP_VALUE%"
-        echo "Highest Raw Usage: $HRU_NAME with $HRU_VALUE uses"
-
-	exit 0
-	;;
+        exit 0
+        ;;
 
     -s|--sort)
 	declare -A sort_options=(
@@ -122,15 +121,9 @@ case "$1" in
     	order=""
 	fi
 
-	(head -n 1 "$FILE"; tail -n +2 "$FILE" | sort -t, -k"$sort_col" $order) | column -s, -t
-	exit 0
-
-	awk -F, -v col="$sort_col" -v order="$order" '
-	NR==1 {print; next}
-	{print | "sort -t, -k" col " " order}
-	' "$FILE" | column -s, -t
-	exit 0
-	;;
+        (head -n 1 "$FILE"; tail -n +2 "$FILE" | sort -t, -k"$sort_col" $order) | column -s, -t
+        exit 0
+        ;;
 
     -g|--grep)
         if [[ -z "$2" ]]; then
@@ -138,7 +131,7 @@ case "$1" in
             exit 1
         fi
 
-	(head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) == tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
+	(head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) ~ tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
         exit 0
         ;;
 
