@@ -34,18 +34,21 @@ echo ""
 # Validasi email
 if ! [[ "$email" =~ ^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$ ]]; then
     echo -e "${RED}❌ Error: Format email tidak valid!${NC}"
+    sleep 2
     exit 1
 fi
 
 # Validasi password
 if ! [[ "$password" =~ [A-Z] && "$password" =~ [a-z] && "$password" =~ [0-9] && ${#password} -ge 8 ]]; then
     echo -e "${RED}❌ Error: Password harus minimal 8 karakter, memiliki huruf besar, huruf kecil, dan angka.${NC}"
+    sleep 2
     exit 1
 fi
 
 # Cek email
 if grep -q "^$email," "$DATA_FILE"; then
     echo -e "${RED}❌ Error: Email sudah terdaftar!${NC}"
+    sleep 2
     exit 1
 fi
 
