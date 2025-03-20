@@ -979,3 +979,98 @@ Kode diatas ini ditujukan untuk *error-handling* pada program secara keseluruhan
 ---
 
 ## REVISI
+
+## REVISI
+**Soal_1 Problem2**
+
+    elif [[ "$opsi" == "2" ]]; then
+    	awk -F',' 'NR > 1 { total += $6; count++ }
+    	END { if (count > 0)
+        	print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
+
+Kode ini hanya membaca keseluruhan data *reading_duration_minute* pada semua *device*, sehingga menghasilkan output yang salah.
+
+    elif [[ "$opsi" == "2" ]]; then
+    	echo "Pilih device: "
+    	read device
+    	awk -F',' -v dev="$device" '
+    	NR > 1 && tolower($8) ~ tolower(dev) && $6 ~ /^[0-9]+(\.[0-9]*)?$/ {total += $6; count++}
+    		END { if (count > 0)
+                       print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
+
+Dengan kode ini, revisi kode diselesaikan dengan penyeluruhan bahwa seorang user dapat memilih *device* pembaca terlebih dahulu, sehingga kita dapat menghasilkan output untuk *device* tablet sesuai dengan output yang kita inginkan.
+
+---
+
+**Soal_1 Problem4**
+
+    elif [[ "$opsi" == "4" ]]; then
+    	awk -F',' 'NR > 1 && $5 > 2023 {
+      		jmlh_genre[$4]++
+    	} 
+
+Kode ini hanya menyelesaikan **problem keempat** dengan mencari genre buku terpopuler setelah 2023 yang kurang didetilkan tanggalnya serta di seluruh *region*.
+
+
+    elif [[ "$opsi" == "4" ]]; then
+    	awk -F',' 'NR > 1 && $5 ~ /^[0-9]{4}/ && substr($5, 1, 4) > 2023 && tolower($9) ~ /asia/ {
+      		jmlh_genre[$4]++
+
+
+Dengan revisi ini, kode akan menghitung dan menganalisis genre buku terpopuler setelah 2023 dengan detil dan hanya di region *Asia* dan menghasilkan output yang diinginkan.
+
+---
+
+**Soal_4 Data Summary of Usage% dan RawUsage**
+
+    -i|--info)
+            HUP=$(awk -F, 'NR>1 {if($2>max_usage){max_usage=$2; name=$1}} END {print name, max_usage}' "$FILE")
+            HRU=$(awk -F, 'NR>1 {if($3>max_raw){max_raw=$3; name=$1}} END {print name, max_raw}' "$FILE")
+    
+            HUP_NAME=$(echo "$HUP" | awk '{$NF=""; print $0}')
+            HUP_VALUE=$(echo "$HUP" | awk '{print $NF}')
+            HRU_NAME=$(echo "$HRU" | awk '{$NF=""; print $0}')
+            HRU_VALUE=$(echo "$HRU" | awk '{print $NF}')
+    
+        	echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
+            echo "Highest Usage Percentage (%): $HUP_NAME with $HUP_VALUE%"
+            echo "Highest Raw Usage: $HRU_NAME with $HRU_VALUE uses"
+    
+    	exit 0
+    	;;
+
+Kode ini tidak efisien serta menghasilkan output yang tidak sesuai pada info *Usage%* dikarenakan adanya ketidaksesuaian pada value.
+
+
+    -i|--info)
+        echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
+
+        awk -F, 'NR>1 {
+            if ($2+0 > max_usage) { max_usage = $2+0; name = $1 }
+            if ($3+0 > max_raw) { max_raw = $3+0; raw_name = $1 }
+        }
+        END {
+            print "Highest Usage Percentage (%):", name, "with", max_usage "%"
+            print "Highest Raw Usage:", raw_name, "with", max_raw, "uses"
+        }' "$FILE"
+
+        exit 0
+        ;;
+Dengan revisi kode ini, kita dapat menyederhanakan kode dengan lebih efisien serta menghasilkan output yang sesuai pada kedua *Usage%* dan *RawUsage* setelah penyesuaian program pada valuenya.
+
+---
+
+**Soal_4 Mencari nama Pokemon tertentu**
+
+    (head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) == tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
+    exit 0
+    ;;
+
+Kode diatas hanya mencari nama pokemon secara *exact* atau sama-persis dengan namanya, sehingga tidak dapat mencari pokemon secara efektif dan optimal.
+
+    (head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) ~ tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
+    exit 0
+    ;;
+Dengan revisi kode ini, user dapat mencari pokemon hanya dengan huruf-hurufnya saja, sehingga pencarian pokemon dapat lebih efektif dan optimal.
+
+---
