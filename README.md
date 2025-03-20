@@ -1,4 +1,4 @@
-# Praktikum Sistem Operasi Modul1
+# Praktikum Sistem Operasi Modul 1
 ### by IT30
 
 
