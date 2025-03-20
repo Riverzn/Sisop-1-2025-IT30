@@ -12,8 +12,10 @@
 
 
 ---
-
+<div align=center>
 ## Soal_1 (Revisi)
+</div>
+	
 ### The Adventure of Poppo and Siroyo through the magical tablet!
 ### Problem:
   
