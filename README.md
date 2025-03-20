@@ -2,7 +2,7 @@
 	
 # Praktikum Sistem Operasi Modul1
 ### by IT30
-</div>
+
 
 ### Anggota Kelompok
 
@@ -12,3 +12,4 @@
 | 2  | Ahmad Rafi Fadhillah Dwiputra     | 5027241068 |
 | 3  | Dimas Satya Andhika              | 5027241032 |
 
+<div>
