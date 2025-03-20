@@ -513,6 +513,10 @@ done
 ```
 
 ---
+<div align=center>
+	
+## Soal_3
+</div>
 
 # The Dark Side of the Moon🌑
 ## Bersihkan layar
@@ -754,7 +758,10 @@ fi
 ```
 melakukan seleksi pada lagu, jika input pengguna tidak sesuai dengan `$1` maka pesan "Lagu tidak ditemukan, harap hubungi admin" akan tercetak
 
-## Soal_4 (Revisi)
+<div align=center>
+	
+## Soal_4
+</div>
 ## Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
 ### Problem:
 
