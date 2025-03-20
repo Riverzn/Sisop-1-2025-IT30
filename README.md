@@ -127,9 +127,6 @@ Dan terakhir, kode ini akan terinisiasi ketika input keempat opsi tidak dimasukk
 
 ---
 
-## (SOAL_3 README.md)
-
-
 # The Dark Side of the Moon🌑
 ## Bersihkan layar
 ```bash
