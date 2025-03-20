@@ -120,4 +120,14 @@ akan membandingkan genre-genre buku berdasarkan jumlahnya dengan `for loop` yang
     	echo "Pilihlah dari keempat opsi yang disediakan!"
     fi
 Dan terakhir, kode ini akan terinisiasi ketika input keempat opsi tidak dimasukkan.
+
 ---
+
+(SOAL_2 README.md)
+
+---
+
+(SOAL_3 README.md)
+
+---
+
