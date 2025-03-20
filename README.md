@@ -26,7 +26,7 @@
 - **Siapakah yang memberi rating buku tertinggi? dan buku apakah itu?**
 - **Setelah tahun 2023, genre buku apakah yang terpopuler?**
 
-## Penjelasan dan Penyelesaian Problem
+### Penjelasan dan Penyelesaian Problem
 
         tablet_ajaib() {
           cat << "EOF"
@@ -771,8 +771,7 @@ melakukan seleksi pada lagu, jika input pengguna tidak sesuai dengan `$1` maka p
 ## Soal_4 (Revisi)
 </div>
 
-# Penjelasan Code soal_4
-## Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
+### Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
 ### Problem:
 
 > **Pada suatu hari, anda diminta teman anda untuk membantunya mempersiapkan diri untuk turnamen Pokemon “Generation 9 OverUsed 6v6 Singles” dengan cara membuatkan tim yang cocok untuknya. Tetapi, anda tidak memahami meta yang dimainkan di turnamen tersebut. Untungnya, seorang informan memberikan anda data [pokemon_usage.csv](https://drive.google.com/file/d/1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ/view?usp=sharing) yang bisa anda download dan analisis. Buatlah script yang bernama `pokemon_analysis.sh` untuk menganalisis data tersebut.**
@@ -783,7 +782,7 @@ melakukan seleksi pada lagu, jika input pengguna tidak sesuai dengan `$1` maka p
 - **Adanya *Error Handling* di setiap kesalahan pada *command* untuk setiap *task*.**
 - **Memiliki *interface* yang menarik dan informatif sebagai program.**
 
-## Penjelasan dan Penyelesaian Problem
+### Penjelasan dan Penyelesaian Problem
 
 Dalam soal_4, kita ditunjukkan untuk membuat suatu program *script* yang akan menganalisis data dari [pokemon_usage.csv](https://drive.google.com/file/d/1n-2n_ZOTMleqa8qZ2nB8ALAbGFyN4-LJ/view?usp=sharing) dan menyajikan kesimpulan dari data tersebut.
 
@@ -978,5 +977,4 @@ Kode diatas ini ditujukan untuk *error-handling* pada program secara keseluruhan
 
 ---
 
-
----
+## REVISI
