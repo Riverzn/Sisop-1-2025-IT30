@@ -29,25 +29,26 @@
 ## Penjelasan dan Penyelesaian Problem
 
         tablet_ajaib() {
-      
-    
-        cat << "EOF"
-    
-    	 _____      _     _      _       _    _       _ _
-    	/__   \__ _| |__ | | ___| |_    /_\  (_) __ _(_) |__
-    	  / /\/ _` | '_ \| |/ _ \ __|  //_\\ | |/ _` | | '_ \
-    	 / / | (_| | |_) | |  __/ |_  /  _  \| | (_| | | |_) |
-    	 \/   \__,_|_.__/|_|\___|\__| \_/ \_// |\__,_|_|_.__/
-    	                                   |__/
-    
-    	Hadapi petualangan dan temukan rahasia di tablet_ajaib!
-    	1. Berapa banyak buku yang Chris Hemsworth baca???
-    	2. Berapa rata-rata durasi "mereka" membaca???
-    	3. Siapakah yang memberi rating buku tertinggi? dan buku apakah itu??
-    	4. Setelah tahun 2023, genre buku apakah yang terpopuler???
-    
-    EOF
-    }
+          cat << "EOF"
+        
+        	 _____      _     _      _       _    _       _ _
+        	/__   \__ _| |__ | | ___| |_    /_\  (_) __ _(_) |__
+        	  / /\/ _` | '_ \| |/ _ \ __|  //_\\ | |/ _` | | '_ \
+        	 / / | (_| | |_) | |  __/ |_  /  _  \| | (_| | | |_) |
+        	 \/   \__,_|_.__/|_|\___|\__| \_/ \_// |\__,_|_|_.__/
+        	                                   |__/
+        
+        	Hadapi petualangan dan temukan rahasia di tablet_ajaib!
+        	1. Berapa banyak buku yang Chris Hemsworth baca???
+        	2. Berapa rata-rata durasi "mereka" membaca dengan device tertentu???
+        	3. Siapakah yang memberi rating buku tertinggi? dan buku apakah itu??
+        	4. Setelah tahun 2023, genre buku apakah yang terpopuler???
+        
+        EOF
+        }
+        
+    tablet_ajaib
+
 Kode diatas digunakan untuk menjadi *interface* program yang ditujukan pada problem-problem yang telah ditunjukkan.
 `EOF` disini digunakan sebagai pengganti `echo` dan `print`, sehingga mengefisiensikan multiline kode dengan fungsi yang sama.
 
@@ -64,16 +65,23 @@ Opsi-opsi solusi problem menggunakan kondisi `if else`, sehingga:
 ### Problem1
 
     if [[ "$opsi" == "1" ]]; then
-		awk -F',' ' BEGIN {n = 0} $2 == "Chris Hemsworth" {++n}
-		END {print "Chris Hemsworth membaca", n, "buku."}' reading_data.csv
+    	awk -F',' ' BEGIN {n = 0} $2 == "Chris Hemsworth" {++n}
+    		END {print "Chris Hemsworth membaca", n, "buku."}' reading_data.csv
+
 Kode diatas akan menyelesaikan **problem pertama** dengan menghitung berapa banyak `Chris Hemsworth` sebagai "n" dan melakukan *increment* setiap `Chris Hemsworth`ditemui di column 2 / $2.
 ### Problem2
 
     elif [[ "$opsi" == "2" ]]; then
-    	awk -F',' 'NR > 1 { total += $6; count++ }
-    	END { if (count > 0)
-	    	print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
-Kode diatas akan menyelesaikan **problem kedua** dengan `NR > 1 { total += $6; count++ }` yang akan menghitung total column 6 / $6 yang merupakan *durasi membaca*, dilanjutkan menghitung jumlah kolom yang ada, yang kemudian akan digunakan untuk menghitung rata-rata durasi membaca dengan `total/count`.
+    	echo "Pilih device: "
+    	read device
+    	awk -F',' -v dev="$device" '
+    	NR > 1 && tolower($8) ~ tolower(dev) && $6 ~ /^[0-9]+(\.[0-9]*)?$/ {total += $6; count++}
+    		END { if (count > 0)
+                       print "Rata-rata durasi \"mereka\" membaca adalah", total/count, "menit." }' reading_data.csv
+
+Kode diatas akan menyelesaikan **problem kedua** dengan memilih device apa yang akan dihitung rata-rata *reading_duration_minute* dengan `echo "Pilih device: "
+    	read device
+    	awk -F',' -v dev="$device"` yang akan membaca device para pembaca, dilanjutkan dengan menghitung keseluruhan *minute* dari device tersebut serta jumlah kolom yang ada pada kolom $6, yang kemudian akan digunakan untuk menghitung rata-rata durasi membaca dengan `total/count` sesuai device pembacanya.
 ### Problem3
 
     elif [[ "$opsi" == "3" ]]; then
@@ -89,7 +97,7 @@ Kode diatas akan menyelesaikan **problem ketiga** dengan membandingkan nilai rat
 ### Problem4
 
     elif [[ "$opsi" == "4" ]]; then
-    	awk -F',' 'NR > 1 && $5 > 2023 {
+    	awk -F',' 'NR > 1 && $5 ~ /^[0-9]{4}/ && substr($5, 1, 4) > 2023 && tolower($9) ~ /asia/ {
       		jmlh_genre[$4]++
     	} 
     	END {
@@ -104,10 +112,10 @@ Kode diatas akan menyelesaikan **problem ketiga** dengan membandingkan nilai rat
     }' reading_data.csv
 *! kode ini akan menyelesaikan **problem keempat** yang dimana akan mencari genre buku terpopuler setelah 2023 disertai jumlah bukunya. *!
 
-	awk -F',' 'NR > 1 && $5 > 2023 {
+	awk -F',' 'NR > 1 && $5 ~ /^[0-9]{4}/ && substr($5, 1, 4) > 2023 && tolower($9) ~ /asia/ {
   		jmlh_genre[$4]++
 	} 
-*! akan menghitung jumlah buku dengan genre tertentu (column 4 / $4) yang telah dipilah hanya untuk buku terbitan setelah 2023 ($5 > 2023). *!
+akan menghitung jumlah buku dengan genre tertentu (column 4 / $4) yang telah dipilah hanya untuk buku terbitan setelah 2023 ($5) di Asia ($9).
 
     END {
     max_jmlh = 0
