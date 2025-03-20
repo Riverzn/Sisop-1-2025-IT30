@@ -979,8 +979,6 @@ Kode diatas ini ditujukan untuk *error-handling* pada program secara keseluruhan
 ---
 
 ## REVISI
-
-## REVISI
 **Soal_1 Problem2**
 
     elif [[ "$opsi" == "2" ]]; then
