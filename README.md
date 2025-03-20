@@ -123,15 +123,15 @@ Dan terakhir, kode ini akan terinisiasi ketika input keempat opsi tidak dimasukk
 
 ---
 
-(SOAL_2 README.md)
+## (SOAL_2 README.md)
 
 ---
 
-(SOAL_3 README.md)
+## (SOAL_3 README.md)
 
 ---
 
-# Penjelasan Code soal_4
+## Soal_4 (Revisi)
 ## Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
 ### Problem:
 
