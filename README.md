@@ -770,6 +770,7 @@ melakukan seleksi pada lagu, jika input pengguna tidak sesuai dengan `$1` maka p
 	
 ## Soal_4 (Revisi)
 </div>
+# Penjelasan Code soal_4
 ## Finding the best team for *Pokemon “Generation 9 OverUsed 6v6 Singles”* Tournament.
 ### Problem:
 
@@ -879,34 +880,32 @@ Kode diatas memulai kondisi `switch-case` dalam menjalankan blok *command* pada 
 
 ### Data Summary of Usage% dan RawUsage
     -i|--info)
-            HUP=$(awk -F, 'NR>1 {if($2>max_usage){max_usage=$2; name=$1}} END {print name, max_usage}' "$FILE")
-            HRU=$(awk -F, 'NR>1 {if($3>max_raw){max_raw=$3; name=$1}} END {print name, max_raw}' "$FILE")
-    
-            HUP_NAME=$(echo "$HUP" | awk '{$NF=""; print $0}')
-            HUP_VALUE=$(echo "$HUP" | awk '{print $NF}')
-            HRU_NAME=$(echo "$HRU" | awk '{$NF=""; print $0}')
-            HRU_VALUE=$(echo "$HRU" | awk '{print $NF}')
-    
-	    	echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
-            echo "Highest Usage Percentage (%): $HUP_NAME with $HUP_VALUE%"
-            echo "Highest Raw Usage: $HRU_NAME with $HRU_VALUE uses"
-    
-    	exit 0
-    	;;
+        echo "Pokemon ~Generation 9 OverUsed~ Data Summary"
+
+        awk -F, 'NR>1 {
+            if ($2+0 > max_usage) { max_usage = $2+0; name = $1 }
+            if ($3+0 > max_raw) { max_raw = $3+0; raw_name = $1 }
+        }
+        END {
+            print "Highest Usage Percentage (%):", name, "with", max_usage "%"
+            print "Highest Raw Usage:", raw_name, "with", max_raw, "uses"
+        }' "$FILE"
+
+        exit 0
+        ;;
 Kode ini bertujuan untuk menyajikan data summary pada `.csv` yang berdasar pada value HUP (Highest Usage%) dan HRU (Highest RawUsage). 
 
-`{if($2>max_usage){max_usage=$2; name=$1}` dan `{if($3>max_raw){max_raw=$3; name=$1}` bertujuan untuk mencari value Usage% dan RawUsage tertinggi,
+    awk -F, 'NR>1 {
+                if ($2+0 > max_usage) { max_usage = $2+0; name = $1 }
+                if ($3+0 > max_raw) { max_raw = $3+0; raw_name = $1 }
+Bertujuan dalam mencari *max_usage* (Usage%) dan *max_raw* (RawUsage) pada kolomnya masing-masing, serta menarik nama pokemon saat ditemukannya *max_usage* dan *max_raw*.
 
-			    HUP_NAME=$(echo "$HUP" | awk '{$NF=""; print $0}')
-                HUP_VALUE=$(echo "$HUP" | awk '{print $NF}')
-                HRU_NAME=$(echo "$HRU" | awk '{$NF=""; print $0}')
-                HRU_VALUE=$(echo "$HRU" | awk '{print $NF}')
-bertujuan dalam menginisiasi nama pokemon dengan nilai HUP dan HRU tertingginya,
+    END {
+        print "Highest Usage Percentage (%):", name, "with", max_usage "%"
+        print "Highest Raw Usage:", raw_name, "with", max_raw, "uses"
+    }' "$FILE"
+akan menampilkan hasil data yang diperoleh pada *max_usage* dan *max_raw* secara rapih berdasarkan Usage% dan RawUsage.
 
-    echo "Pokemon ~Generation 9 OverUsed~ Data Summary" 
-    echo "Highest Usage Percentage (%): $HUP_NAME with $HUP_VALUE%" 
-    echo "Highest Raw Usage: $HRU_NAME with $HRU_VALUE uses"
-bertujuan dalam *print* simpulan data dari HUP dan HRU dengan baik.
 ### *Mengurutkan Pokemon berdasarkan data kolom melalui *sort*
 
     -s|--sort)
@@ -929,24 +928,19 @@ bertujuan dalam *print* simpulan data dari HUP dan HRU dengan baik.
             fi
  bertujuan dalam *error-handling* ketika metode sorting tidak valid dengan opsi yang ada,
 
-    sort_col=${sort_options[$2]}
-    order="-nr"
-    
-    if [[ "$2" == "name" ]]; then
+	sort_col=${sort_options[$2]}
+	order="-nr"
+
+	if [[ "$2" == "name" ]]; then
     	order=""
-    fi
+	fi
 bertujuan dalam *sorting* angka dalam numerikal *descending* dan huruf pada nama secara *alphabetical* (a-z).
 
     (head -n 1 "$FILE"; tail -n +2 "$FILE" | sort -t, -k"$sort_col" $order) | column -s, -t
     exit 0
-    
-    awk -F, -v col="$sort_col" -v order="$order" '
-    NR==1 {print; next}
-    {print | "sort -t, -k" col " " order}
-    ' "$FILE" | column -s, -t
-    exit 0
-	;;
-*! bertujuan dalam menyortir data pada `.csv` secara keseluruhan berdasarkan opsi *sort* pada value dalam data. *!
+    ;;
+
+bertujuan dalam menyortir data pada `.csv` secara keseluruhan berdasarkan opsi *sort* pada value dalam data.
 
 ### Mencari nama Pokemon tertentu
 
@@ -956,10 +950,10 @@ bertujuan dalam *sorting* angka dalam numerikal *descending* dan huruf pada nama
             exit 1
         fi
     
-	    (head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) == tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
+	    (head -n 1 "$FILE"; awk -F, -v name="$2" 'NR>1 && tolower($1) ~ tolower(name)' "$FILE" | sort -t, -k2 -nr) | column -s, -t
         exit 0
         ;;
-Kode diatas bertujuan dalam mencari nama pokemon tertentu dan menampilkan nama pokemon tersebut disertai value-value lainnya yang mengikuti pada nama pokemon tersebut.
+Kode diatas bertujuan dalam mencari nama pokemon tertentu hanya berdasarkan pada huruf yang kita input dan menampilkan nama pokemon tersebut disertai value-value lainnya yang mengikuti pada nama pokemon tersebut.
 
 ### Mencari Pokemon berdasarkan filter type
     -f|--filter)
@@ -971,7 +965,7 @@ Kode diatas bertujuan dalam mencari nama pokemon tertentu dan menampilkan nama p
 		(head -n 1 "$FILE"; awk -F, -v type="$2" 'NR>1 && (tolower($4) == tolower(type) || tolower($5) == tolower(type))' "$FILE" | sort -t, -k2 -nr) | column -s, -t
         exit 0
         ;;
-  Kode diatas bertujuan dalam memfilter *type* pokemon yang kita telah input, lalu diikuti dengan urutan pada Usage%-nya dan disertai dengan value-value lainnya yang diikuti oleh pokemon dengan type tertentu.
+Kode diatas bertujuan dalam memfilter *type* pokemon yang kita telah input, lalu diikuti dengan urutan pada Usage%-nya dan disertai dengan value-value lainnya yang diikuti oleh pokemon dengan type tertentu.
   
 ### Error-Handling Program
     *)
@@ -980,5 +974,8 @@ Kode diatas bertujuan dalam mencari nama pokemon tertentu dan menampilkan nama p
         ;;
      esac
 Kode diatas ini ditujukan untuk *error-handling* pada program secara keseluruhan input command, serta mengakhiri kondisi `switch-case` yang ada dalam program.
+
+---
+
 
 ---
